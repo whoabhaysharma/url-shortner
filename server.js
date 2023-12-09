@@ -52,7 +52,7 @@ app.get('/:shortid', async (req, res) => {
 
 async function getFullUrlByShort(shortid){
     const res = await Url.findOne({short : shortid})
-    if(res.full){
+    if(res?.full){
         return res.full
     }else{
         return null
