@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import Url from './models/Url.js';
+import cron from 'node-cron'
 
 const app = express();
 const port = 3000; // Change this to your desired port
@@ -11,6 +12,16 @@ app.use(express.json());
 
 app.listen(port, () => {
   console.log("listening");
+});
+
+cron.schedule('*/10 * * * *', async () => {
+    try {
+      const response = await axios.get('https://url-shortner-zagr.onrender.com/list');
+      console.log('Hitting every 10 minutes');
+      // Process the response as needed
+    } catch (error) {
+      console.error('Error making API request:', error.message);
+    }
 });
 
 app.get('/list', async (req, res) => {
