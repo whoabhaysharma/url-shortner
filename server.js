@@ -1,15 +1,13 @@
-import pkg from 'body-parser';
 import express from 'express'
 import mongoose from 'mongoose'
 import Url from './models/Url.js';
 
-const { json } = pkg
-
 const app = express();
-app.use(json())
 const port = 3000; // Change this to your desired port
 
 mongoose.connect('mongodb+srv://taskmanager:KTCWOqvNuk6JZd5N@cluster0.ddap5qo.mongodb.net/url-shortner');
+
+app.use(express.json());
 
 app.listen(port, () => {
   console.log("listening");
