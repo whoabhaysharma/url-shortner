@@ -25,9 +25,9 @@ app.get('/list', async (req, res) => {
 })
 
 app.post('/new', async (req, res) => {
-    const obj = await Url.exists({full : req.body.full})
+    const obj = await Url.findOne({full : req.body.full})
     if(obj){
-        res.send("This url already exists")
+        res.send(`This url already exists on short id ${obj.short}`)
     }else{
         const url = new Url({
             full : req.body.full
