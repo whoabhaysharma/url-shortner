@@ -3,14 +3,18 @@ import mongoose from 'mongoose';
 import Url from './models/Url.js';
 import cron from 'node-cron';
 import axios from 'axios';
+import dotenv from 'dotenv'
 
+dotenv.config()
 
 const app = express();
-const port = 3000; // Change this to your desired port
+const port = process.env.PORT || 3000; // Change this to your desired port
 
-mongoose.connect('mongodb+srv://taskmanager:KTCWOqvNuk6JZd5N@cluster0.ddap5qo.mongodb.net/url-shortner');
+mongoose.connect(process.env.MONGO_URL);
 
 app.use(express.json());
+
+app.use(express.static('views'));
 
 app.listen(port, () => {
   console.log("listening");
@@ -24,6 +28,10 @@ cron.schedule('*/10 * * * *', async () => {
     } catch (error) {
       console.error('Error making API request:', error.message);
     }
+});
+
+app.get('/', (req, res) => {
+    res.sendFile('index.html', { root: 'views' });
 });
 
 app.get('/list', async (req, res) => {
